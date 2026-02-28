@@ -23,3 +23,8 @@ def encrypt_data(data: str, key: bytes):
     fernet_key = base64.urlsafe_b64encode(key)
     f = Fernet(fernet_key)
     return f.encrypt(data.encode())
+
+def decrypt_data(token: bytes, key: bytes):
+    fernet_key = base64.urlsafe_b64encode(key)
+    f = Fernet(fernet_key)
+    return f.decrypt(token).decode()

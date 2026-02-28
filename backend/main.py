@@ -1,8 +1,7 @@
 import os
-from dotenv import load_dotenv
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi import FastAPI, HTTPException
 import time
+from dotenv import load_dotenv
+
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -24,14 +23,13 @@ app.add_middleware(
 
 @app.get("/ping")
 def home():
+    return {"message": "pong"}
 
-    return {
-        "message": "pong",
-    }
 
 class Payload(BaseModel):
     id: str
     data: str
+
 
 @app.post("/encrypt")
 def encrypt(payload: Payload):
@@ -45,8 +43,8 @@ def encrypt(payload: Payload):
     cursor = conn.cursor()
 
     cursor.execute(
-        "INSERT INTO secure_storage (id, encrypted_data) VALUES (%s, %s)",
-        (payload.id, encrypted)
+        "INSERT INTO secure_storage (id, encrypted_data, encryption_key) VALUES (%s, %s, %s)",
+        (payload.id, encrypted, key)
     )
 
     conn.close()
@@ -60,12 +58,34 @@ def encrypt(payload: Payload):
 
 
 
+@app.get("/decrypt/{item_id}")
+def decrypt(item_id: str):
 
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(
-        "main:app",
-        host=os.getenv("APP_HOST"),
-        port=int(os.getenv("APP_PORT")),
-        reload=True
+    start = time.perf_counter()
+
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "SELECT encrypted_data, encryption_key FROM secure_storage WHERE id=%s",
+        (item_id,)
     )
+
+    result = cursor.fetchone()
+    conn.close()
+
+    if not result:
+        raise HTTPException(status_code=404, detail="Not found")
+
+    encrypted_data = result[0]
+    key = result[1]
+
+    decrypted = decrypt_data(encrypted_data, key)
+
+    total_time = (time.perf_counter() - start) * 1000
+
+    return {
+        "decrypted_data": decrypted,
+        "processing_time_ms": round(total_time, 3),
+        "actual_encrypted_data": encrypted_data
+    }
