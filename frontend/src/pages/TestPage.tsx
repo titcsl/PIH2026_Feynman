@@ -13,7 +13,7 @@ interface FormState {
   error: string | null
 }
 
-const API_URI = "http://localhost:8000"
+const API_URI = "https://backend.whatsgoinon.space"
 
 function EncryptForm() {
   const [qubitId, setQubitId] = useState("")

@@ -1,42 +1,87 @@
-### THE QUANTUM WALL
-
+# THE QUANTUM WALL
 
 ## Problem Statement
 
-In today’s applications, sensitive data such as authentication tokens, personal data, and confidential data are stored in the database, which creates a significant security risk since if the database gets compromised or leaked, the data will be at risk of being disclosed in plaintext, resulting in a major privacy breach and risk to the system
+Today, in many applications, certain types of data, like authentication tokens, personal identifiable information, and confidential information, are stored directly in the database. This, however, poses a huge security risk. In case the database is compromised or leaked, the stored information will be exposed in plaintext form. This will result in severe privacy violations, along with security threats of many different types.
 
-## Problem Description
+## Solution Overview
 
-Quantum Wall is middleware security software designed to encrypt critical information before it reaches the database, ensuring that in case of database compromise, the stored information will be secure. It provides an encryption boundary for applications, enhancing the security of information using robust encryption techniques, including those based on quantum physics, to minimize the effects of possible data breaches in modern systems.
+The Quantum Wall is a middleware security component that encrypts critical information before storing it in the database. This provides an application-layer encryption boundary, ensuring that if the database is compromised, the stored information will be encrypted and will not be readable.
+
+The Quantum Wall does not rely on database security. It provides security for the stored information by encrypting it at the API level. This minimizes the effects of any potential data breach.
+
+## How It Works
+
+1.  The client sends information to the backend API.
+2.  It uses quantum-inspired entropy to generate an encryption key.
+3.  It uses AES-based encryption to encrypt the information.
+4.  It stores only the encrypted information in the MySQL database.
+5.  It decrypts the information when required.
+
+## Security Model
+- No data in plaintext will be stored in the database.
+- Encryption will be done at the application level.
+- Even if the database gets leaked, users will not be able to access the data.
+- It demonstrates the mitigation of data breach impact by using encryption.
+
+Note: For demonstration purposes, the encryption key will be stored securely in the database. In actual use cases, a Key Management System (KMS) should be used.
 
 ## Tech Stack
+### Backend
+FastAPI
+Cryptography
+Qiskit
+MySQL
 
-FastAPI (Backend)
+### Frontend
+Vite
+### Infrastructure
+Linux VPS
+Nginx
+### Backend
+- Encryption code will be written.
+- Quantum Wall security layer will be implemented.
+- API will be written to handle encryption and decryption.
 
-MySQL (Database)
+### Frontend
+- Frontend UI will be built using Vite.
+- Encryption and decryption will be done.
+- Processing time will be shown.
 
-Cryptography (AES encryption)
+## API Endpoints
 
-Qiskit (Quantum-inspired entropy simulation)
+### GET /ping
+This is a health check endpoint.
 
-Vite (Frontend)
+### POST /encrypt
+This endpoint is used for encrypting the data.
 
-## Project Structure
+**Example Request**
+```json
+{
+  "id": "123",
+  "data": "Sensitive Information"
+}
+```
 
-# Backend
+### GET /decrypt/{id}
+This endpoint is used for decrypting the data.
 
-    Contains the core encryption logic.
+## Deployment Status
 
-    Implements the Quantum Wall security layer.
+**Frontend**
+https://whatsgoinon.space/
 
-    Handles API endpoints for encrypting and decrypting data.
+**Backend API Docs**
+https://backend.whatsgoinon.space/docs
 
-    Integrates with MySQL for secure encrypted storage.
+**Deployment**
+- Hosted on a Linux VPS
+- Using Nginx as a reverse proxy server
+- Using FastAPI for the backend
+- Using a separate server for the frontend
 
-# Frontend
+## Conclusion
+Quantum Wall is an application development technique that is centered on the security of the application. It is focused on the security of the application, especially when it comes to the information that is crucial to the application but has not yet reached the database. This has the advantage of reducing the risks associated with database breaches, hence making the application more secure.
 
-    Provides the user interface.
-
-    Allows users to send data for encryption and retrieve decrypted data.
-
-    Displays processing time and system responses.
+The application has also shown that cryptographic methods are essential in application development.
