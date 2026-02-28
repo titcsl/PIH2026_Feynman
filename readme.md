@@ -19,7 +19,7 @@ Cryptography (AES encryption)
 
 Qiskit (Quantum-inspired entropy simulation)
 
-Next.js (Frontend)
+Vite (Frontend)
 
 ## Project Structure
 
