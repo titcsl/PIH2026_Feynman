@@ -18,6 +18,8 @@ The Quantum Wall does not rely on database security. It provides security for th
 4.  It stores only the encrypted information in the MySQL database.
 5.  It decrypts the information when required.
 
+Note: For this demo, encryption keys are stored in the database. A production deployment should use a dedicated Key Management System (KMS).
+
 ## Security Model
 - No data in plaintext will be stored in the database.
 - Encryption will be done at the application level.
